@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Uhr</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #212121;
+        }
+        .clock {
+            font-size: 48px;
+            color: white;
+        }
+        .date {
+            font-size: 22px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock" id="clock"></div>
+    <div class="date" id="date"></div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+            const timeString = `${hours}:${minutes}:${seconds}:${milliseconds}`;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        function updateDate() {
+            const now = new Date();
+            const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+            const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+            const dayName = days[now.getDay()];
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const dateString = `${dayName}, ${day}. ${month} ${year}`;
+            document.getElementById('date').textContent = dateString;
+        }
+        
+        setInterval(updateClock, 1);
+        setInterval(updateDate, 60000);
+        updateDate();
+        updateClock();  // Initial call to display the clock immediately
+    </script>
+</body>
+</html>
