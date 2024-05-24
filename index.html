@@ -41,29 +41,7 @@
             const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
             const timeString = `${hours}:${minutes}:${seconds}:${milliseconds}`;
             document.getElementById('clock').textContent = timeString;
-        }
-
-        function updateDate() {
-            const now = new Date();
-            const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-            const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-            const dayName = days[now.getDay()];
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = months[now.getMonth()];
-            const year = now.getFullYear();
-            const dateString = `${dayName}, ${day}. ${month} ${year}`;
-            document.getElementById('date').textContent = dateString;
-        }
-
-        
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
-            const timeString = `${hours}:${minutes}:${seconds}:${milliseconds}`;
-            document.getElementById('clock').textContent = timeString;
+            requestAnimationFrame(updateClock);  // Re-call using requestAnimationFrame
         }
 
         function updateDate() {
@@ -156,13 +134,14 @@
             ctx.restore();
         }
         
-        setInterval(updateClock, 1);
-        setInterval(updateDate, 60000);
-        setInterval(drawClock, 1000);
+        function startClock() {
+            updateClock();
+            updateDate();
+            setInterval(updateDate, 60000);
+            setInterval(drawClock, 16);  // Update every 16ms (~60 FPS)
+        }
 
-        updateDate();
-        updateClock();  // Initial call to display the clock immediately
-        drawClock()
+        startClock();  // Start the clock
     </script>
 </body>
 </html>
